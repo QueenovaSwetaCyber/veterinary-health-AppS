@@ -3,18 +3,21 @@ import numpy as np
 import requests
 import json
 import os
+from dotenv import load_dotenv
+
+load_dotenv()
 
 # ==============================
 # PAGE CONFIG
 # ==============================
 
 st.set_page_config(layout="centered")
-
+ 
 # ==============================
 # OPENROUTER API CONFIGURATION
 # ==============================
 
-API_KEY = os.getenv("OPENROUTER_API_KEY", "")
+API_KEY = os.getenv("API_KEY", "")
 
 # ==============================
 # APP TITLE
@@ -157,6 +160,10 @@ if st.button("Analysis with AI"):
         st.warning("Please describe the animal problem.")
     else:
         try:
+            if not API_KEY:
+                st.error("OpenRouter API key not found. Set the OPENROUTER_API_KEY environment variable.")
+                st.stop()
+
             prompt = f"""
             You are an expert veterinary assistant.
 
